@@ -24,7 +24,6 @@ We have fully dockerized this repository so any developer can spin it up in seco
 Create a `.env` file in the root of the project and add your Groq API Key:
 ```env
 GROQ_API_KEY=your_groq_api_key_here
-SECRET_KEY=my-super-secret-jwt-key
 ```
 
 ### 2. Run the Application
