@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: logistics_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # If you change this URL, update the frontend hardcoded fetch paths
+      - DATABASE_URL=sqlite:///./logistics.db
+      - SECRET_KEY=${SECRET_KEY:-super-secret-key-for-local-dev-only}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    volumes:
+      # Mount local backend dir so code changes reflect instantly
+      - ./backend:/app
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: logistics_frontend
+    ports:
+      - "5173:80" # Maps localhost:5173 to nginx container port 80
+    depends_on:
+      - backend
+    restart: unless-stopped
